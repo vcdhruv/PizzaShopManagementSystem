@@ -1,0 +1,195 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@{
+    var userName = Accessor.HttpContext.Session.GetString("UserName") == null ? Context.Request.Cookies["UserName"] :
+    Accessor.HttpContext.Session.GetString("UserName");
+    var email = Accessor.HttpContext.Session.GetString("Email") == null ? Context.Request.Cookies["Email"] :
+    Accessor.HttpContext.Session.GetString("Email");
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pizza_Shop_Management_System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Pizza_Shop_Management_System.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+
+</head>
+
+<body class="h-100 w-100">
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Offcanvas section starts -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel">
+                <div class="sidebar_section">
+                    <nav class="nav d-flex flex-column align-items-start justify-content-start sidebar vh-100 pt-2"
+                        id="sidebar">
+                        <div class="container-fluid">
+                            <ul class="sidebarlist fs-6 ">
+                                <!-- Pizza Shop Logo -->
+                                <li class="nav-item d-flex justify-content-between align-items-center">
+                                    <a href="">
+                                        <img src="~/images/logos/pizzashop_logo.png" alt="" height="50" id="pizza_logo">
+                                        <span class="fw-bold">PIZZA SHOP</span>
+                                    </a>
+                                    <span data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+                                        aria-controls="offcanvasExample">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </span>
+                                </li>
+                                <!-- Dashboard Link -->
+                                <li class="nav-item mt-4 mb-3">
+                                    <a asp-controller="Home" asp-action="Index">
+                                        <i class="fa-solid fa-users text-dark"></i>
+                                        <span class="text-secondary">Dashboard</span>
+                                    </a>
+                                </li>
+                                <!-- Users Link -->
+                                <li class="nav-item mb-3 active_sidebar_page">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-solid fa-user-clock text-dark"></i>
+                                        <span class="text-primary">Users</span>
+                                    </a>
+                                </li>
+                                <!-- Role And Permission Link -->
+                                <li class="nav-item mb-3">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-solid fa-calendar-minus text-dark"></i>
+                                        <span class="text-secondary">Role and Permission</span>
+                                    </a>
+                                </li>
+                                <!-- Menu Link -->
+                                <li class="nav-item mb-3">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-solid fa-table-cells-large text-dark"></i>
+                                        <span class="text-secondary">Menu</span>
+                                    </a>
+                                </li>
+                                <!-- Table And Section Link -->
+                                <li class="nav-item mb-3">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-solid fa-money-check-dollar text-dark"></i>
+                                        <span class="text-secondary">Table And Section</span>
+                                    </a>
+                                </li>
+                                <!-- Taxes And Fees Link -->
+                                <li class="nav-item mb-3">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-solid fa-clipboard-check text-dark"></i>
+                                        <span class="text-secondary">Taxes And Fees</span>
+                                    </a>
+                                </li>
+                                <!-- Orders Link -->
+                                <li class="nav-item mb-3">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-regular fa-id-card text-dark"></i>
+                                        <span class="text-secondary">Orders</span>
+                                    </a>
+                                </li>
+                                <!-- Customers Link -->
+                                <li class="nav-item">
+                                    <a asp-controller="" asp-action="">
+                                        <i class="fa-regular fa-id-card text-dark"></i>
+                                        <span class="text-secondary">Customers</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- Offcanvas section ends -->
+
+            <!-- Sidebar section starts -->
+            <partial name="_sidebar">
+                <!-- Sidebar section ends -->
+                <!-- Navbar And UsersList section starts -->
+                <div class="col-xl-10 col-md-9 col-sm-8 p-0 navbar_bg" id="main-content">
+                    <!-- Navbar section -->
+                    <div class="col-12 navbar_section d-flex justify-content-between align-items-center bg-primary p-2">
+                        <span class="bars_icons">
+                            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                                aria-controls="offcanvasExample">
+                                <i class="fa-solid fa-bars text-white"></i>
+                            </a>
+                        </span>
+                        <div class="dropdown profile-img">
+                            <a class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <span>
+                                    <img src="~/images/Default_pfp.svg.png" alt="" srcset="" height="30"
+                                        style="color: grey;">
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu g-0" aria-labelledby="dropdownMenuButton1">
+                                <li class="d-flex justify-content-around align-items-center mb-2">
+                                    <span class="">
+                                        <img src="~/images/Default_pfp.svg.png" alt="" srcset="" height="40"
+                                            style="color: grey;">
+                                    </span>
+                                    <span class="" href="#">@(userName)</span>
+                                </li>
+                                <a class="dropdown-item border-top d-flex justify-content-between align-items-center"
+                                    asp-controller="Dashboard" asp-action="MyProfile">
+                                    <span class="">
+                                        <img src="~/images/Default_pfp.svg.png" alt="" srcset="" height="20"
+                                            style="color: grey;">
+                                    </span>
+                                    <span class=" d-flex justify-content-start text-secondary">My Profile</span>
+                                </a>
+                                <a class="dropdown-item d-flex justify-content-between align-items-center"
+                                    asp-controller="Dashboard" asp-action="ChangePassword">
+                                    <span class="">
+                                        <i class="fa-solid fa-rotate-right text-secondary"></i>
+                                    </span>
+                                    <span class=" ms-2 text-secondary" href="#">Change Password</span>
+                                </a>
+                                <button class="dropdown-item d-flex justify-content-between align-items-start"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <span class="">
+                                        <i class="fa-solid fa-right-from-bracket text-secondary"></i>
+                                    </span>
+                                    <span class="d-flex justify-content-start text-secondary">Logout</span>
+                                </button>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Render Body -->
+                    <div>
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- Navbar And UsersList section ends -->
+        </div>
+    </div>
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog-centered modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body d-flex justify-content-center align-items-center flex-column">
+                    <i class="fa-solid fa-triangle-exclamation text-warning fs-1"></i>
+                    <p class="fs-5">Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a type="button" class="btn btn-primary" asp-action="Logout" asp-controller="Dashboard">Yes</a>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

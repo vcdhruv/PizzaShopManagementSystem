@@ -1,0 +1,80 @@
+@model DAL.ViewModels.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    var cookie_RememberMe = Context.Request.Cookies["RememberMe"];
+}
+
+<div class="row pizza_card p-2">
+    <div class="col-12 text-center d-flex justify-content-center align-items">
+        <img src="~/images/logos/pizzashop_logo.png" alt="" height="40"><span class="fs-3 text-primary">PIZZASHOP</span>
+    </div>
+    <div class="col-12 mt-4">
+        <h4>Welcome,</h4>
+    </div>
+    <div class="form">
+        <span class="text-success">@TempData["Success_Msg"]</span>
+        <form asp-action="Index" method="post">
+            <div class="col-12">
+                <div class="text-secondary mt-2 username icon-position">
+                    <input type="text" value="@Context.Request.Cookies["Email"]" asp-for="Email" class="form-control"
+                        placeholder="Email*" id="email">
+                    <span class="bg-warning">
+                        <img src="~/images/icons/customer.svg" class="input-icon-placement" alt="" height="20">
+                    </span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="text-secondary mt-2 password icon-position">
+                    <input type="password" value="@Context.Request.Cookies["Password"]" asp-for="PasswordHash"
+                        class="form-control " placeholder="Password*" id="eye-input">
+                    <span class="bg-warning d-flex justify-content-end">
+                        <i class="fa-solid fa-eye-slash input-icon-placement" id="eye"
+                            onclick="ToggleEyeIcon('eye','eye-input')"></i></span>
+                    <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 mt-2 d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input type="checkbox" asp-for="RememberMe" class="form-check-input" checked="@(cookie_RememberMe)">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Remember me
+                    </label>
+                </div>
+                <span class="text-primary" id="forgot_password">Forgot
+                    Password?</span>
+            </div>
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </div>
+        </form>
+        <span class="text-danger">@ViewBag.ErrorMsg</span>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#forgot_password").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EmailPopulate","UserAuthentication")",
+                data: { "email": $("#email").val() },
+                success: function (response) {
+                    window.location.href = "@Url.Action("ForgotPassword", "UserAuthentication")";
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

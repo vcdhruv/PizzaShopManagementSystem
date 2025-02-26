@@ -1,0 +1,264 @@
+@model DAL.ViewModels.UserViewModel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main_container m-4">
+    <!-- UsersList content -->
+    <div class="col-12 mt-3 d-flex justify-content-between search_icons">
+        <!-- User heading -->
+        <div class="main_content">
+            <h1 class="fw-bold text-primary">Add New User</h1>
+        </div>
+        <!-- Back Button -->
+        <div class="back_btn">
+            <a asp-controller="User" asp-action="Index" class="btn btn-outline-primary me-2">
+                <i class="fa-solid fa-angle-left"></i>&nbsp;Back
+            </a>
+        </div>
+    </div>
+
+    <!-- UserList Card -->
+    <div class="userlist_card">
+        <div class="card p-4">
+            <div class="form">
+                <form asp-action="AddNewUser" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="type" asp-for="FirstName" class="form-control" id="floatingInput"
+                                    placeholder="First Name">
+                                <label for="floatingInput">First Name</label>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="type" asp-for="LastName" class="form-control" id="floatingInput"
+                                    placeholder="Last Name">
+                                <label for="floatingInput">Last Name</label>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="type" asp-for="UserName" class="form-control" id="floatingInput"
+                                    placeholder="User Name">
+                                <label for="floatingInput">User Name</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select" asp-for="RoleId" id="floatingSelect"
+                                    aria-label="Floating label select example">
+                                    <option selected>Select Role</option>
+                                    <option value="1">Super-Admin</option>
+                                    <option value="2">Account-Manager</option>
+                                    <option value="3">Chef</option>
+                                </select>
+                                <label for="floatingSelect">Select Role</label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="type" asp-for="Email" class="form-control" id="floatingInput"
+                                    placeholder="Email">
+                                <label for="floatingInput">Email</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3 text-secondary mt-2 password icon-position">
+                                    <input type="password" asp-for="Password" class="form-control "
+                                        placeholder="Password*" id="eye-current-input">
+                                    <span class="bg-warning d-flex justify-content-end">
+                                        <i class="fa-solid fa-eye-slash input-icon-placement" id="eye_current"
+                                            onclick="ToggleEyeIcon('eye_current','eye-current-input')"></i></span>
+                                    <label for="Password">Password</label>
+                                    <span class="text-danger" asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="uploadFile"
+                                class="border border-dashed rounded p-5 d-flex justify-content-center">
+                                <span class="d-flex flex-column justify-content-center align-items-center">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    Browse
+                                </span>
+                            </label>
+                            <input type="file" asp-for="ProfilePicture" class="d-none" id="uploadFile">
+                            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select class="form-select" asp-for="CountryID" id="ddlCountry"
+                                    aria-label="Floating label select example">
+                                </select>
+                                <label for="floatingSelect">Country</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select class="form-select" asp-for="StateID" id="ddlState"
+                                    aria-label="Floating label select example">Select State
+                                </select>
+                                <label for="floatingSelect">State</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select class="form-select" asp-for="CityID" id="ddlCity"
+                                    aria-label="Floating label select example">Select City
+                                </select>
+                                <label for="floatingSelect">City</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="Zipcode" class="form-control " id="eye-confirm-new-input"
+                                    placeholder="Zipcode">
+                                <label for="floatingInput">Zipcode</label>
+                                <span asp-validation-for="Zipcode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="Address" class="form-control " id="eye-confirm-new-input"
+                                    placeholder="Address">
+                                <label for="floatingInput">Address</label>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="PhoneNumber" class="form-control "
+                                    id="eye-confirm-new-input" placeholder="Phone">
+                                <label for="floatingInput">Phone</label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button typ="submit" id="Submit" class="btn btn-primary">Create User</button>
+                        <a asp-controller="User" asp-action="Index" class="btn btn-outline-primary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ddlCountry = $("#ddlCountry");
+        var ddlState = $("#ddlState");
+        var ddlCity = $("#ddlCity");
+        ddlCountry.append($("<option></option>").val('').html('Select Country'));
+        ddlState.append($("<option></option>").val('').html('Select State'));
+        ddlCity.append($("<option></option>").val('').html('Select City'));
+        $.ajax({
+            url: '@Url.Action("GetCountries", "User")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (d) {
+                console.log("response of country action method : " + d);
+                $.each(d, function (i, country) {
+                    console.log(i);
+                    console.log(country);
+                    ddlCountry.append($("<option></option>").val(country.countryId).html(country.countryName));
+                });
+
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+
+        //state details by country id
+        $("#ddlCountry").change(function () {
+            var CountryID = parseInt($(this).val());
+            console.log(CountryID);
+            if (!isNaN(CountryID)) {
+                var ddlState = $("#ddlState");
+                ddlState.empty();
+                ddlState.append($("<option></option>").val('').html("Please wait..."));
+
+                $.ajax({
+                    url: '@Url.Action("GetStates", "User")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { countryID: CountryID },
+                    success: function (d) {
+                        console.log("response of state : " + d);
+                        ddlState.empty(); //clear the please wait
+                        ddlState.append($("<option></option>").val('').html("Select State"));
+                        $.each(d, function (i, states) {
+                            ddlState.append($("<option></option>").val(states.stateId).html(states.stateName));
+                        });
+                    },
+                    error: function () {
+                        alert("Error! In State");
+                    }
+                });
+            } else {
+                $("#ddlState").empty();
+                $("#ddlCity").empty();
+                $("#ddlState").append($("<option></option>").val('').html('Select State'));
+                $("#ddlCity").append($("<option></option>").val('').html('Select City'));
+            }
+        });
+
+        //city details by state id
+        $("#ddlState").change(function () {
+            var StateID = parseInt($(this).val());
+            console.log(StateID);
+            if (!isNaN(StateID)) {
+                var ddlCity = $("#ddlCity");
+                ddlCity.empty();
+                ddlCity.append($("<option></option>").val('').html("Please wait..."));
+
+                $.ajax({
+                    url: '@Url.Action("GetCities", "User")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateID: StateID },
+                    success: function (d) {
+                        console.log("response of cities : " + d);
+                        ddlCity.empty(); //clear the please wait
+                        ddlCity.append($("<option></option>").val('').html("Select City"));
+                        $.each(d, function (i, cities) {
+                            ddlCity.append($("<option></option>").val(cities.cityId).html(cities.cityName));
+                        });
+                    },
+                    error: function () {
+                        alert("Error! In City");
+                    }
+                });
+            }else{
+                $("#ddlState").empty();
+                $("#ddlCity").empty();
+                $("#ddlState").append($("<option></option>").val('').html('Select State'));
+                $("#ddlCity").append($("<option></option>").val('').html('Select City'));
+            }
+        });
+
+    });
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

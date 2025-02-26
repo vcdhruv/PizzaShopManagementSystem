@@ -1,0 +1,72 @@
+<div class="col-xl-2 col-md-3 col-sm-4 d-sm-flex d-none g-0 bg-white sidebar_section" id="sidebar_toggle">
+                <nav class="nav d-flex flex-column align-items-start justify-content-start sidebar vh-100 pt-2"
+                    id="sidebar">
+                    <div class="container-fluid">
+                        <ul class="sidebarlist fs-6 ">
+                            <!-- Pizza Shop Logo -->
+                            <li class="nav-item">
+                                <a asp-controller="Home" asp-action="Index">
+                                    <img src="~/images/logos/pizzashop_logo.png" alt="" height="50" id="pizza_logo">
+                                    <span class="fw-bold">PIZZA SHOP</span>
+                                </a>
+                            </li>
+                            <!-- Dashboard Link -->
+                            <li class="nav-item mt-4 mb-3 active_sidebar_page">
+                                <a asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fa-solid fa-users text-dark"></i>
+                                    <span class="text-primary">Dashboard</span>
+                                </a>
+                            </li>
+                            <!-- Users Link -->
+                            <li class="nav-item mb-3 ">
+                                <a asp-controller="User" asp-action="Index">
+                                    <i class="fa-solid fa-user-clock text-dark"></i>
+                                    <span class="text-secondary">Users</span>
+                                </a>
+                            </li>
+                            <!-- Role And Permission Link -->
+                            <li class="nav-item mb-3">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-solid fa-calendar-minus text-dark"></i>
+                                    <span class="text-secondary">Role And Permission</span>
+                                </a>
+                            </li>
+                            <!-- Menu Link -->
+                            <li class="nav-item mb-3">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-solid fa-table-cells-large text-dark"></i>
+                                    <span class="text-secondary">Menu</span>
+                                </a>
+                            </li>
+                            <!-- Table And Section Link -->
+                            <li class="nav-item mb-3">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-solid fa-money-check-dollar text-dark"></i>
+                                    <span class="text-secondary">Table And Section</span>
+                                </a>
+                            </li>
+                            <!-- Taxes And Fees Link -->
+                            <li class="nav-item mb-3">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-solid fa-clipboard-check text-dark"></i>
+                                    <span class="text-secondary">Taxes And Fees</span>
+                                </a>
+                            </li>
+                            <!-- Orders Link -->
+                            <li class="nav-item mb-3">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-regular fa-id-card text-dark"></i>
+                                    <span class="text-secondary">Orders</span>
+                                </a>
+                            </li>
+                            <!-- Customers Link -->
+                            <li class="nav-item">
+                                <a asp-controller="" asp-action="">
+                                    <i class="fa-regular fa-id-card text-dark"></i>
+                                    <span class="text-secondary">Customers</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>

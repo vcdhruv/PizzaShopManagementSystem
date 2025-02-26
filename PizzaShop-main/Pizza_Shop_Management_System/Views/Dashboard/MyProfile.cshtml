@@ -1,0 +1,215 @@
+@model DAL.ViewModels.ProfileViewModel;
+@inject IHttpContextAccessor Accessor
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userName = Accessor.HttpContext.Session.GetString("UserName") == null ? Context.Request.Cookies["UserName"] :
+    Accessor.HttpContext.Session.GetString("UserName");
+    var email = Accessor.HttpContext.Session.GetString("Email") == null ? Context.Request.Cookies["Email"] :
+    Accessor.HttpContext.Session.GetString("Email");
+}
+<div class="main_container m-4">
+
+
+    <!-- UserList Card -->
+    <div class="userlist_card">
+        <div class="card p-4">
+            <div class="profile_img">
+                abcd
+            </div>
+            <div class="profile_details mb-3 d-flex justify-content-between align-items-center">
+                <div class="profile_pic d-flex">
+                    <img style="margin-top:-1em" src="~/images/Default_pfp.svg.png" height="70" alt="">
+                    <div class="ms-2 d-flex align-items-center">
+                        <h4 class="profile_username">
+                            @(userName)
+                        </h4>
+                    </div>
+                </div>
+                <div class="profile_email">
+                    <p>
+                        @(email)
+                    </p>
+                </div>
+            </div>
+            <div class="form">
+                @* <h3 class="text-success">@TempData["Success_Msg"]</h3> *@
+                <form asp-action="MyProfile">
+                    @* <input type="hidden" > *@
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="FirstName" class="form-control" id="floatingInput"
+                                    placeholder="First Name">
+                                <label for="floatingInput">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="LastName" class="form-control" id="floatingInput"
+                                    placeholder="Last Name">
+                                <label for="floatingInput">Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="UserName" class="form-control" id="floatingInput"
+                                    placeholder="User Name">
+                                <label for="floatingInput">User Name</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="PhoneNumber" class="form-control" id="floatingInput"
+                                    placeholder="Phone">
+                                <label for="floatingInput">Phone</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select asp-for="CountryId" class="form-select" id="ddlCountry"
+                                    asp-items="@ViewBag.Countries">
+                                </select>
+                                <label for="floatingSelect">Country</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select asp-for="StateId" class="form-select" id="ddlState"
+                                    aria-label="Floating label select example" asp-items="@ViewBag.States">
+                                </select>
+                                <label for="floatingSelect">State</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating">
+                                <select asp-for="CityId" class="form-select" id="ddlCity"
+                                    aria-label="Floating label select example" asp-items="@ViewBag.Cities">
+                                </select>
+                                <label for="floatingSelect">City</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-8 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="Address" class="form-control " id="eye-confirm-new-input"
+                                    placeholder="Address">
+                                <label for="floatingInput">Address</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" asp-for="Zipcode" class="form-control " id="eye-confirm-new-input"
+                                    placeholder="Zipcode">
+                                <label for="floatingInput">Zipcode</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="buttons">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-primary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ddlCountry = $("#ddlCountry");
+        ddlCountry.append($("<option></option>").val('').html('Please Select Country'));
+        $.ajax({
+            url: '@Url.Action("GetCountries", "User")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (d) {
+                console.log("response of country action method : " + d);
+                $.each(d, function (i, country) {
+                    console.log(i);
+                    console.log(country);
+                    ddlCountry.append($("<option></option>").val(country.countryId).html(country.countryName));
+                });
+
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+        //state details by country id
+        $("#ddlCountry").change(function () {
+            var CountryID = parseInt($(this).val());
+            console.log(CountryID);
+            if (!isNaN(CountryID)) {
+                var ddlState = $("#ddlState");
+                ddlState.empty();
+                ddlState.append($("<option></option>").val('').html("Please wait..."));
+
+                $.ajax({
+                    url: '@Url.Action("GetStates", "User")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { countryID: CountryID },
+                    success: function (d) {
+                        console.log("response of state : " + d);
+                        ddlState.empty(); //clear the please wait
+                        ddlState.append($("<option></option>").val('').html("Select State"));
+                        $.each(d, function (i, states) {
+                            ddlState.append($("<option></option>").val(states.stateId).html(states.stateName));
+                        });
+                    },
+                    error: function () {
+                        alert("Error! In State");
+                    }
+                });
+            } else {
+                $("#ddlState").empty();
+                $("#ddlCity").empty();
+            }
+        });
+
+        //city details by state id
+        $("#ddlState").change(function () {
+            var StateID = parseInt($(this).val());
+            console.log(StateID);
+            if (!isNaN(StateID)) {
+                var ddlCity = $("#ddlCity");
+                ddlCity.empty();
+                ddlCity.append($("<option></option>").val('').html("Please wait..."));
+
+                $.ajax({
+                    url: '@Url.Action("GetCities", "User")',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateID: StateID },
+                    success: function (d) {
+                        console.log("response of cities : " + d);
+                        ddlCity.empty(); //clear the please wait
+                        ddlCity.append($("<option></option>").val('').html("Select City"));
+                        $.each(d, function (i, cities) {
+                            ddlCity.append($("<option></option>").val(cities.cityId).html(cities.cityName));
+                        });
+                    },
+                    error: function () {
+                        alert("Error! In City");
+                    }
+                });
+            } else {
+                $("#ddlState").empty();
+                $("#ddlCity").empty();
+            }
+        });
+
+
+
+    });
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
